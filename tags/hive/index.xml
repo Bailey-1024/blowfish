@@ -14,7 +14,7 @@
       <pubDate>Fri, 26 Jul 2024 00:00:00 +0800</pubDate>
       
       <guid>https://your_domain.com/docs/speech-7-26/</guid>
-      <description>Hive小问题 # Hive SQL 的执行流程 # 用户首先输入SQL HIve驱动器（Driver）中的解析器将sql解析会抽象语法树，并对抽象语法树进行语义分析 对抽象语法树进行优化 编译器（Compiler）将抽象语法树 （AST） 编译生成逻辑执行计划，接着再将逻辑计划优化并转换为物理计划 执行物理计划 返回结果 简化流程图：</description>
+      <description>Hive小问题 # Hive SQL 的执行流程 # 用户首先输入SQL HIve驱动器（Driver）中的解析器将sql解析会抽象语法树，并对抽象语法树进行语义分析 对抽象语法树进行优化 编译器（Compiler）将抽象语法树 （AST） 编译生成逻辑执行计划，接着再将逻辑计划优化并转换为物理计划 执行物理执行计划 返回结果 简化流程图：</description>
       <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://your_domain.com/docs/speech-7-26/featured.png" />
     </item>
     
