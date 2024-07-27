@@ -9,6 +9,16 @@
     <copyright>© 2024 李</copyright>
     <lastBuildDate>Fri, 26 Jul 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/tags/%E6%9D%8E/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Hbase</title>
+      <link>https://your_domain.com/docs/hbase/</link>
+      <pubDate>Fri, 26 Jul 2024 00:00:00 +0800</pubDate>
+      
+      <guid>https://your_domain.com/docs/hbase/</guid>
+      <description> Hbase # </description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://your_domain.com/docs/hbase/featured.png" />
+    </item>
+    
+    <item>
       <title>speech-7-26</title>
       <link>https://your_domain.com/docs/speech-7-26/</link>
       <pubDate>Fri, 26 Jul 2024 00:00:00 +0800</pubDate>
