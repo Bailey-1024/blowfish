@@ -9,7 +9,7 @@
     <copyright>© 2024 李</copyright>
     <lastBuildDate>Sat, 27 Jul 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/tags/hbase/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>启动hbase步骤</title>
+      <title>hbase启动步骤</title>
       <link>https://your_domain.com/docs/hbase-start/</link>
       <pubDate>Sat, 27 Jul 2024 00:00:00 +0800</pubDate>
       
@@ -19,12 +19,12 @@
     </item>
     
     <item>
-      <title>Hbase</title>
+      <title>HBase笔记</title>
       <link>https://your_domain.com/docs/hbase/</link>
       <pubDate>Fri, 26 Jul 2024 00:00:00 +0800</pubDate>
       
       <guid>https://your_domain.com/docs/hbase/</guid>
-      <description> Hbase # </description>
+      <description>HBase # 基本概念 # 什么是HBase # ​	HBase是一个开源的、高可靠性、高性能、面向列（这里指列族，非列式存储）、可伸缩、实时读写的分布式数据库。</description>
       <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://your_domain.com/docs/hbase/featured.png" />
     </item>
     

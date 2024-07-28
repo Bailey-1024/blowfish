@@ -8,11 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>Hbase &middot; 李</title>
-  <meta name="title" content="Hbase &middot; 李" />
+  <title>HBase笔记 &middot; 李</title>
+  <meta name="title" content="HBase笔记 &middot; 李" />
   
-  <meta name="description" content="Hbase基础" />
-  <meta name="keywords" content="Hbase, 李, " />
+  <meta name="description" content="HBase笔记" />
+  <meta name="keywords" content="HBase, 李, " />
   
   
   <link rel="canonical" href="https://your_domain.com/docs/hbase/" />
@@ -62,8 +62,8 @@
   
   <meta property="og:url" content="https://your_domain.com/docs/hbase/">
   <meta property="og:site_name" content="李">
-  <meta property="og:title" content="Hbase">
-  <meta property="og:description" content="Hbase基础">
+  <meta property="og:title" content="HBase笔记">
+  <meta property="og:description" content="HBase笔记">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -76,8 +76,8 @@
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://your_domain.com/docs/hbase/featured.png">
-  <meta name="twitter:title" content="Hbase">
-  <meta name="twitter:description" content="Hbase基础">
+  <meta name="twitter:title" content="HBase笔记">
+  <meta name="twitter:description" content="HBase笔记">
 
   
   <script type="application/ld+json">
@@ -85,10 +85,10 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Docs",
-    "name": "Hbase",
-    "headline": "Hbase",
-    "description": "Hbase基础",
-    "abstract": " Hbase # ",
+    "name": "HBase笔记",
+    "headline": "HBase笔记",
+    "description": "HBase笔记",
+    "abstract": "HBase # 基本概念 # 什么是HBase # ​\tHBase是一个开源的、高可靠性、高性能、面向列（这里指列族，非列式存储）、可伸缩、实时读写的分布式数据库。",
     "inLanguage": "zh-cn",
     "url" : "https:\/\/your_domain.com\/docs\/hbase\/",
     "author" : {
@@ -101,10 +101,10 @@
     
     "dateModified": "2024-07-26T00:00:00\u002b08:00",
     
-    "keywords": ["Hbase","李"],
+    "keywords": ["HBase","李"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "2"
+    "wordCount": "504"
   }]
   </script>
 
@@ -494,7 +494,7 @@
 
     
     <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-      Hbase
+      HBase笔记
     </h1>
     <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       
@@ -539,7 +539,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2024-07-26 00:00:00 &#43;0800 CST">2024-07-26</time><span class="px-2 text-primary-500">&middot;</span><span>2 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">1 分钟</span>
+  <time datetime="2024-07-26 00:00:00 &#43;0800 CST">2024-07-26</time><span class="px-2 text-primary-500">&middot;</span><span>504 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span>
   
 
   
@@ -686,7 +686,123 @@
   
   <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
     
-    
+     <div
+      class="order-first lg:ml-auto px-0 lg:order-last ltr:lg:pl-8 rtl:lg:pr-8">
+      <div class="toc ltr:pl-5 rtl:pr-5 print:hidden lg:sticky lg:top-[140px]">
+
+         <details open id="TOCView"
+  class="toc-right mt-0 overflow-y-scroll overscroll-contain scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600 rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    目录
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本概念">基本概念</a>
+      <ul>
+        <li><a href="#什么是hbase">什么是HBase</a></li>
+        <li><a href="#hbase有什么用">HBase有什么用</a></li>
+        <li><a href="#特点">特点</a></li>
+        <li><a href="#拓展">拓展</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据模型">数据模型</a></li>
+    <li><a href="#架构模型">架构模型</a>
+      <ul>
+        <li><a href="#总体架构">总体架构</a></li>
+        <li><a href="#核心组件">核心组件</a></li>
+      </ul>
+    </li>
+    <li><a href="#blockcache">BlockCache</a></li>
+    <li><a href="#读写流程">读写流程</a>
+      <ul>
+        <li><a href="#三层索引">三层索引</a>
+          <ul>
+            <li><a href="#hbase096以前">HBase0.96以前</a></li>
+            <li><a href="#hbase-096-以后">HBase 0.96 以后</a></li>
+          </ul>
+        </li>
+        <li><a href="#读取数据流程">读取数据流程</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    目录
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本概念">基本概念</a>
+      <ul>
+        <li><a href="#什么是hbase">什么是HBase</a></li>
+        <li><a href="#hbase有什么用">HBase有什么用</a></li>
+        <li><a href="#特点">特点</a></li>
+        <li><a href="#拓展">拓展</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据模型">数据模型</a></li>
+    <li><a href="#架构模型">架构模型</a>
+      <ul>
+        <li><a href="#总体架构">总体架构</a></li>
+        <li><a href="#核心组件">核心组件</a></li>
+      </ul>
+    </li>
+    <li><a href="#blockcache">BlockCache</a></li>
+    <li><a href="#读写流程">读写流程</a>
+      <ul>
+        <li><a href="#三层索引">三层索引</a>
+          <ul>
+            <li><a href="#hbase096以前">HBase0.96以前</a></li>
+            <li><a href="#hbase-096-以后">HBase 0.96 以后</a></li>
+          </ul>
+        </li>
+        <li><a href="#读取数据流程">读取数据流程</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+<script>
+
+  var margin = 200;
+  var marginError = 50;
+
+  (function () {
+    var $window = $(window);
+    var $toc = $('#TOCView');
+    var tocHeight = $toc.height();
+
+    function onResize() {
+      var windowAndMarginHeight = $window.height() - margin;
+      if(tocHeight >= windowAndMarginHeight) {
+        $toc.css("overflow-y", "scroll")
+        $toc.css("max-height", (windowAndMarginHeight + marginError) + "px")
+      } else {
+        $toc.css("overflow-y", "hidden")
+        $toc.css("max-height", "9999999px")
+      }
+    }
+
+    $window.on('resize', onResize);
+    $(document).ready(onResize);
+  })();
+
+
+
+</script>
+   </div>
+      </div>
+      
 
       <div class="min-w-0 min-h-0 max-w-fit">
         
@@ -715,7 +831,7 @@
         <div class="article-content max-w-prose mb-20">
           
 
-<h1 class="relative group">Hbase 
+<h1 class="relative group">HBase 
     <div id="hbase" class="anchor"></div>
     
     <span
@@ -725,6 +841,401 @@
     </span>        
     
 </h1>
+
+
+<h2 class="relative group">基本概念 
+    <div id="%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+
+<h3 class="relative group">什么是HBase 
+    <div id="%E4%BB%80%E4%B9%88%E6%98%AFhbase" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E4%BB%80%E4%B9%88%E6%98%AFhbase" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>​	HBase是一个开源的、高可靠性、高性能、面向列（这里指列族，非列式存储）、可伸缩、实时读写的分布式数据库。</p>
+
+
+<h3 class="relative group">HBase有什么用 
+    <div id="hbase%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#hbase%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>​	HBase拥有良好的分布式架构设计可以让海量数据进行快速存储，提供高效、可扩展的分布式存储解决方案，用于处理大规模的结构化或非结构化数据。</p>
+
+
+<h3 class="relative group">特点 
+    <div id="%E7%89%B9%E7%82%B9" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E7%89%B9%E7%82%B9" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+
+
+<h3 class="relative group">拓展 
+    <div id="%E6%8B%93%E5%B1%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%8B%93%E5%B1%95" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p><strong>HBse与RDBMS(关系数据库管理系统)的区别</strong>：</p>
+<p>
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /docs/hbase/index.assets/image-20240727203106396_hu9f6513623efc39674763322ac74fde87_58541_330x0_resize_box_3.png 330w,
+        /docs/hbase/index.assets/image-20240727203106396_hu9f6513623efc39674763322ac74fde87_58541_660x0_resize_box_3.png 660w,
+        /docs/hbase/index.assets/image-20240727203106396_hu9f6513623efc39674763322ac74fde87_58541_1024x0_resize_box_3.png 1024w,
+        /docs/hbase/index.assets/image-20240727203106396_hu9f6513623efc39674763322ac74fde87_58541_1320x0_resize_box_3.png 2x"
+        src="/docs/hbase/index.assets/image-20240727203106396_hu9f6513623efc39674763322ac74fde87_58541_660x0_resize_box_3.png"
+        alt="image-20240727203106396"
+      />
+      
+    </figure>
+</p>
+
+
+<h2 class="relative group">数据模型 
+    <div id="%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>​	在HBase表中一行数据一下几个属性：一个主键（RowKey），列族（Column Family）下的多个列（Column Qualifier），并且含有一个或多个以时间戳（TimeStamp）来实现的版本号（Version）。</p>
+<p>​	<strong>数据模型图：</strong></p>
+<p>
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /docs/hbase/index.assets/image-20240727205742236_hu85f82364a8bbfde0216e49969d5c9557_83882_330x0_resize_box_3.png 330w,
+        /docs/hbase/index.assets/image-20240727205742236_hu85f82364a8bbfde0216e49969d5c9557_83882_660x0_resize_box_3.png 660w,
+        /docs/hbase/index.assets/image-20240727205742236_hu85f82364a8bbfde0216e49969d5c9557_83882_1024x0_resize_box_3.png 1024w,
+        /docs/hbase/index.assets/image-20240727205742236_hu85f82364a8bbfde0216e49969d5c9557_83882_1320x0_resize_box_3.png 2x"
+        src="/docs/hbase/index.assets/image-20240727205742236_hu85f82364a8bbfde0216e49969d5c9557_83882_660x0_resize_box_3.png"
+        alt="image-20240727205742236"
+      />
+      
+    </figure>
+</p>
+<p>​	<strong>核心元素：</strong></p>
+<ol>
+<li>
+<p><strong>NameSpace</strong>（命名空间）
+命名空间类似于关系型数据库中的数据库的概念，他其实是表的逻辑分组。这种抽象为多租户相关功能奠定了基础。命名空间是可以管理维护的，可以创建，删除或更改命名空间。HBase 有两个特殊预定义的命名空间：</p>
+<ul>
+<li>
+<p>default：没有明确指定命名空间的表将自动落入此命名空间</p>
+</li>
+<li>
+<p>hbase：系统命名空间，用于包含 HBase 的内部表和元数据表</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Table</strong>（表）
+Table 和关系型数据库中的表一个意思，由行和列组成。</p>
+</li>
+<li>
+<p><strong>RowKey</strong>(主键)</p>
+<p>RowKey 的概念与关系型数据库中的主键相似，是一行数据的唯一标识。RowKey 可以是任意字符串（最大长度是=64KB，实际应用中长度一般为 10-100 Bytes），RowKey 以字节数组保存。存储数据时，数据会按照 RowKey 的字典序排序存储，所以设计 RowKey 时，要充分利用排序存储这个特性，将经常一起读取的行存放到一起。</p>
+<p>访问 HBase 数据的方式有三种：</p>
+<ul>
+<li>基于 RowKey 的单行查询；</li>
+<li>基于 RowKey 的范围查询；</li>
+<li>全表扫描查询。</li>
+</ul>
+</li>
+<li>
+<p><strong>Column Family</strong>（列族）</p>
+<p>Column Family 即列族，HBase 基于列划分数据的物理存储，同一个列族中列的数据在物理上都存储在同一个 HFile中。一个列族可以包含任意多列，一般同一类的列会放在一个列族中，每个列族都有一组存储属性：|</p>
+<ul>
+<li>是否应该缓存在内存中；</li>
+<li>数据如何被压缩或行键如何编码等。</li>
+</ul>
+</li>
+<li>
+<p><strong>Column  Qualifier</strong>(列)
+列族的限定词，理解为列的唯一标识。但是列标识是可以改变的，因此每一行可能有不同的列标识。使用的时候必须 (列族:列) ，列可以根据需求动态添加或者删除，同一个表中不同行的数据列都可以不同。</p>
+</li>
+<li>
+<p><strong>Timestamp</strong>（时间戳）
+Timestamp是实现Hbase多个版本的关键。相同 RowKey 的数据按照 Timestamp 倒序排列，默认查询的是最新的版本，当然用户也可以指定 Timestamp 的值来读取指定版本的数据。
+为了避免数据存在过多版本而造成管理（包括存贮和索引）负担，HBase 提供了两种数据版本回收方案：
+一是保存数据的最后 n 个版本
+二是保存最近一段时间内的版本（比如最近七天）</p>
+</li>
+<li>
+<p><strong>Cell</strong>（单元格）
+Cell 由 Row，Column Family，Column Qualifier，Version 组成。</p>
+</li>
+</ol>
+
+
+<h2 class="relative group">架构模型 
+    <div id="%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+
+<h3 class="relative group">总体架构 
+    <div id="%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>​	HBase建立在Hadoop之上，利用Hadoop HDFS作为其底层存储系统，并借助Hadoop MapReduce提供高性能的数据处理能力。同时，HBase利用Zookeeper进行集群状态的监控、元数据的管理以及集群配置的维护。</p>
+
+
+<h3 class="relative group">核心组件 
+    <div id="%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>
+<p><strong>Zookeeper</strong>
+HBase 通过 ZooKeeper 来完成选举 HMaster、监控 HRegionServer、维护元数据集群配置等工作。主要工作职责如下：</p>
+<ul>
+<li><strong>选举 HMaster</strong>：保证任何时候，集群中只有一个 HMaster。实现 HMaster 主从节点的 故障转移（Failover）；</li>
+<li><strong>监控 HRegionServer（节点探活）</strong>：实时监控 HRegionServer 的状态，将 HRegionServer 的上下线信息实时报告给Hmaster</li>
+<li><strong>维护元数据和集群配置</strong>：存放整个 HBase 集群的元数据以及集群的状态信息，包括：
+<ul>
+<li>存储所有 HRegion 的寻址入口（hbase:meta 元数据表），存储所有的的元数据信息；</li>
+<li>存储 HBase 的 架构（Schema），包括有哪些 Table，每个 Table 有哪些 Column Family。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Client</strong>
+HBase Client 为用户提供了访问 HBase 的接口，可以通过元数据表（客户端负责发送请求到数据库）来定位到目标数据的 HRegionServer。客户端连接的方式有很多种： HBase shell和Java API。</p>
+<p>​	发送的请求主要包括：</p>
+<ul>
+<li>DDL：数据库定义语言（表的建立，删除，添加删除列族，控制版本）</li>
+<li>DML：数据库操作语言（增删改）</li>
+<li>DQL：数据库查询语言（查询，全表扫描，基于主键，基于过滤器）</li>
+</ul>
+</li>
+<li>
+<p><strong>HMaster</strong>
+HMaster 是 HBase 集群的主节点，负责整个集群的管理工作，HMaster 可以实现高可用（Active 和 Backup），通过
+ZooKeeper 来维护主备节点的切换。</p>
+<ul>
+<li>**管理分配：**管理和分配 HRegion，负责启动的时候分配 HRegion 到具体的 HRegionServer，又或者在分割 HRegion 时关于新 HRegion 的分配。管理用户对 Table 结构的 DDL（创建，删除，修改）操作。</li>
+<li>**负载均衡：**一方面负责将用户的数据均衡地分布在各个 HRegionServer 上，防止 HRegionServer 数据倾斜过载。另一方面负责将用户的请求均衡地分布在各个 HRegionServer 上，防止 HRegionServer 请求过热；</li>
+<li>**维护数据：**发现失效的 HRegion，并将失效的 HRegion 分配到正常的 HRegionServer 上。当某个 HRegionServer 下线时迁移其内部的 HRegion 到其他 HRegionServer 上。</li>
+<li><strong>权限控制</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>HRegionServer</strong></p>
+<p>​	HRegionServer 直接对接用户的读写请求，是真正干活的节点，属于 HBase 具体数据的管理者。主要工作职责如下：</p>
+<ul>
+<li>实时和 HMaster 保持心跳，汇报当前节点的信息；</li>
+<li>当接收到 HMaster 的命令创建表时，会分配一个 HRegion 对应一张表；</li>
+<li>负责切分在运行过程中变得过大的 HRegion；</li>
+<li>当 HRegionServer 意外关闭的时候，当前节点的 HRegion 会被其他 HRegionServer 管理；</li>
+<li>维护 HMaster 分配给它的 HRegion，处理对这些 HRegion 的 IO 请求；
+<ul>
+<li>当客户端发送 DML 和 DQL 操作时，HRegionServer 负责和客户端建立连接；</li>
+<li>WAL：Write Ahead Log 日志先行。记录了数据写入、更新日志，它被用来做故障恢复；</li>
+<li>MemStore：写缓存，数据首先会被写入到 MemStore 中。每个 HRegion 的每个 Column Family 都会有一个MemStore</li>
+<li>负责与底层的 HDFS 交互，存储数据（HLog、HFile）到 HDFS。</li>
+<li>BlockCache：读缓存，在内存中存储了最常访问的数据，采用 LRU 机制进行淘汰。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>HRegion</strong></p>
+<p>​	一个 HRegionServer 包含了多个 HRegion。HBase 将表中的数据基于 RowKey 的不同范围划分到不同 HRegion 上，每个
+HRegion 都负责一定范围的数据存储和访问。</p>
+<p>​	HRegion 是 HBase 中分布式存储和负载均衡的最小单元，不同的 HRegion 可以分布在不同的 HRegionServer 上。每个表一开始只有一个 HRegion，随着数据不断插入表，HRegion 不断增大，当增大到指定阀值（10G）的时候，HRegion 就会等分成两个HRegion，切分后其中一个 HRegion 会被转移到其他的 HRegionServer 上，实现负载均衡。</p>
+</li>
+<li>
+<p><strong>Store</strong></p>
+<p>​	一个 HRegion 由多个 Store 组成，每个 Store 都对应一个 Column Family，Store 包含 1 个 MemStore 和 0 或多个StoreFile 组成。</p>
+<ul>
+<li><strong>MemStore</strong>：作为 HBase 的内存数据存储，数据的写操作会先写到 MemStore 中，当 MemStore 中的数据增长到指定阈值（默认 128M）后，HRegionServer 会启动 FlushCache 进程将 MemStore 中的数据写入 StoreFile 持久化存储，每次写入后都形成一个单独的 StoreFile。当客户端检索数据时，先在 MemStore 中查找，如果 MemStore 中不存在，则会在StoreFile 中继续查找。</li>
+<li>**StoreFile：**MemStore 中的数据写到文件后就是 StoreFile，StoreFile 底层是以 HFile 格式保存的。HBase 以 StoreFile 的大小来判断是否需要切分 HRegion。当一个 HRegion 中所有 StoreFile 的大小和数量都增长到超过指定阈值时，HMaster会把当前 HRegion 分割为两个，切分后其中一个 HRegion 会被转移到其他的 HRegionServer 上，实现负载均衡。</li>
+<li>**HFile：**HFile 和 StoreFile 是同一个文件，只不过站在 HDFS 的角度称这个文件为 HFile，站在 HBase 的角度就称这个文
+件为 StoreFile。是 HBase 在 HDFS 中存储数据的格式，它包含多层的索引，这样在 HBase 检索数据的时候就不用完全
+的加载整个文件。</li>
+</ul>
+</li>
+<li>
+<p><strong>HFile</strong></p>
+</li>
+<li>
+<p><strong>HLog</strong></p>
+</li>
+</ol>
+<p>​	一个 HRegionServer 只有一个 HLog 文件。负责记录数据的操作日志，当 HBase 出现故障时可以进行日志重放、故障恢复。例如磁盘掉电导致 MemStore 中的数据没有持久化存储到 StoreFile，这时就可以通过 HLog 日志重放来恢复数据。</p>
+<p>​	HLog 文件就是一个普通的 Hadoop Sequence File，Sequece File 的 Key 是 HLogKey 对象，Sequece File 的 Value 是HBase 的 KeyValue 对象，即本次的操作。</p>
+<p>​	HLogKey 中记录了写入数据的归属信息，除了 Table 和 HRegion 名称外，同时还包括 Sequence Number 和Timestamp：</p>
+<ul>
+<li>
+<p>Timestamp：写入时间。</p>
+</li>
+<li>
+<p>Sequence Number：起始值为 0，或者是最近一次存入文件系统中的 Sequence Number。</p>
+<p>数据被写入 WAL 后，会被加入到 MemStore 即写缓存。然后服务端就可以向客户端返回 ack 表示写数据完成。</p>
+</li>
+</ul>
+<ol start="9">
+<li>
+<p><strong>HDFS</strong></p>
+<p>​	HDFS 为 HBase 提供底层数据存储服务，同时为 HBase 提供高可用支持。HBase 将 HLog 存储在 HDFS 上，当服务器发生异常宕机时，可以重放 HLog 来恢复数据。</p>
+</li>
+</ol>
+
+
+<h2 class="relative group">BlockCache 
+    <div id="blockcache" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#blockcache" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+
+<h2 class="relative group">读写流程 
+    <div id="%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>​	HBase 中单表的数据量通常可以达到 TB 级或 PB 级，但大多数情况下数据读取可以做到毫秒级。</p>
+
+
+<h3 class="relative group">三层索引 
+    <div id="%E4%B8%89%E5%B1%82%E7%B4%A2%E5%BC%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E4%B8%89%E5%B1%82%E7%B4%A2%E5%BC%95" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+
+
+<h4 class="relative group">HBase0.96以前 
+    <div id="hbase096%E4%BB%A5%E5%89%8D" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#hbase096%E4%BB%A5%E5%89%8D" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	HBase 0.96 以前内部维护了两张特殊的表： -ROOT- 表和 .META. 表，用来查找各种表的 HRegion 位置。这两张特殊的表也像 HBase 中的其他表一样会切分成多个 HRegion。 -ROOT- 表比 .META. 更特殊一些，只能包含一个完整的HRegion信息，这样保证了只需要三次跳转，就能定位到任意 HRegion。</p>
+<ul>
+<li>-ROOT- ：记录 .META. 表的 HRegion 信息。</li>
+<li>.META. ：记录用户的表的 HRegion 信息。</li>
+</ul>
+<p>客户端查找HRegion信息流程：</p>
+<p>​	Client==&gt;Zookeeper==&gt; -ROOT- ==&gt;.Meta.==&gt;HRegion</p>
+
+
+<h4 class="relative group">HBase 0.96 以后 
+    <div id="hbase-096-%E4%BB%A5%E5%90%8E" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#hbase-096-%E4%BB%A5%E5%90%8E" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	HBase 0.96 以后，-ROOT- 表被移除，直接将 .META. 表 HRegion 位置信息存放在 ZooKeeper 中，并将 .META. 表更名为hbase:meta</p>
+<p>客户端查找HRegion信息流程：</p>
+<p>​	Client==&gt;Zookeepe ==&gt;hbase:meta==&gt;HRegion</p>
+<p>hbase表结构如下:</p>
+<p>
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /docs/hbase/index.assets/image-20240728204218893_hu6b370c7d24b5abfb35e11ab9ff0215e8_110206_330x0_resize_box_3.png 330w,
+        /docs/hbase/index.assets/image-20240728204218893_hu6b370c7d24b5abfb35e11ab9ff0215e8_110206_660x0_resize_box_3.png 660w,
+        /docs/hbase/index.assets/image-20240728204218893_hu6b370c7d24b5abfb35e11ab9ff0215e8_110206_1024x0_resize_box_3.png 1024w,
+        /docs/hbase/index.assets/image-20240728204218893_hu6b370c7d24b5abfb35e11ab9ff0215e8_110206_1320x0_resize_box_3.png 2x"
+        src="/docs/hbase/index.assets/image-20240728204218893_hu6b370c7d24b5abfb35e11ab9ff0215e8_110206_660x0_resize_box_3.png"
+        alt="image-20240728204218893"
+      />
+      
+    </figure>
+</p>
+
+
+<h3 class="relative group">读取数据流程 
+    <div id="%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
 
         </div>
         
@@ -809,11 +1320,11 @@
         </span>
         <span>
           
-            <a class="flex text-right group ml-3" href="/docs/hbase-start/">
+            <a class="flex text-right group ml-3" href="/docs/problems/">
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >启动hbase步骤</span
+                  >学习大数据时遇到的问题</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   

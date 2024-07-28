@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Problems on 李</title>
+    <link>https://your_domain.com/tags/problems/</link>
+    <description>Recent content in Problems on 李</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2024 李</copyright>
+    <lastBuildDate>Sat, 27 Jul 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/tags/problems/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>学习大数据时遇到的问题</title>
+      <link>https://your_domain.com/docs/problems/</link>
+      <pubDate>Sat, 27 Jul 2024 00:00:00 +0800</pubDate>
+      
+      <guid>https://your_domain.com/docs/problems/</guid>
+      <description>问题一：主从模式和主备模式的区别？ # 个人理解：</description>
+      
+    </item>
+    
+  </channel>
+</rss>
