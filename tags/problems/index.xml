@@ -15,7 +15,7 @@
       
       <guid>https://your_domain.com/docs/problems/</guid>
       <description>问题一：主从模式和主备模式的区别？ # 个人理解：</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://your_domain.com/docs/problems/featured.jpg" />
     </item>
     
   </channel>

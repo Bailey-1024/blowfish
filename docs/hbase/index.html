@@ -104,7 +104,7 @@
     "keywords": ["HBase","李"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "504"
+    "wordCount": "728"
   }]
   </script>
 
@@ -539,7 +539,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2024-07-26 00:00:00 &#43;0800 CST">2024-07-26</time><span class="px-2 text-primary-500">&middot;</span><span>504 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span>
+  <time datetime="2024-07-26 00:00:00 &#43;0800 CST">2024-07-26</time><span class="px-2 text-primary-500">&middot;</span><span>728 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">4 分钟</span>
   
 
   
@@ -725,6 +725,50 @@
           </ul>
         </li>
         <li><a href="#读取数据流程">读取数据流程</a></li>
+        <li><a href="#写入数据流程">写入数据流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据刷写">数据刷写</a>
+      <ul>
+        <li><a href="#刷写时机">刷写时机</a>
+          <ul>
+            <li><a href="#内存阈值">内存阈值</a></li>
+            <li><a href="#内存总和">内存总和</a></li>
+            <li><a href="#日志阈值">日志阈值</a></li>
+            <li><a href="#定期刷写">定期刷写</a></li>
+            <li><a href="#更新频率">更新频率</a></li>
+          </ul>
+        </li>
+        <li><a href="#刷写策略">刷写策略</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据合并">数据合并</a>
+      <ul>
+        <li><a href="#合并类型">合并类型</a>
+          <ul>
+            <li><a href="#minor-compaction次要小">Minor Compaction（次要/小）</a></li>
+            <li><a href="#major-compaction主要大">Major Compaction（主要/大）</a></li>
+          </ul>
+        </li>
+        <li><a href="#合并时机">合并时机</a>
+          <ul>
+            <li><a href="#memstore-刷盘">MemStore 刷盘</a></li>
+            <li><a href="#周期性检查">周期性检查</a></li>
+            <li><a href="#手动执行">手动执行</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#数据切分">数据切分</a>
+      <ul>
+        <li><a href="#切分原因">切分原因</a>
+          <ul>
+            <li><a href="#数据分布不均匀">数据分布不均匀</a></li>
+            <li><a href="#compaction-性能损耗严重">Compaction 性能损耗严重</a></li>
+            <li><a href="#资源耗费严重">资源耗费严重</a></li>
+          </ul>
+        </li>
+        <li><a href="#切分优化">切分优化</a></li>
       </ul>
     </li>
   </ul>
@@ -765,6 +809,50 @@
           </ul>
         </li>
         <li><a href="#读取数据流程">读取数据流程</a></li>
+        <li><a href="#写入数据流程">写入数据流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据刷写">数据刷写</a>
+      <ul>
+        <li><a href="#刷写时机">刷写时机</a>
+          <ul>
+            <li><a href="#内存阈值">内存阈值</a></li>
+            <li><a href="#内存总和">内存总和</a></li>
+            <li><a href="#日志阈值">日志阈值</a></li>
+            <li><a href="#定期刷写">定期刷写</a></li>
+            <li><a href="#更新频率">更新频率</a></li>
+          </ul>
+        </li>
+        <li><a href="#刷写策略">刷写策略</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据合并">数据合并</a>
+      <ul>
+        <li><a href="#合并类型">合并类型</a>
+          <ul>
+            <li><a href="#minor-compaction次要小">Minor Compaction（次要/小）</a></li>
+            <li><a href="#major-compaction主要大">Major Compaction（主要/大）</a></li>
+          </ul>
+        </li>
+        <li><a href="#合并时机">合并时机</a>
+          <ul>
+            <li><a href="#memstore-刷盘">MemStore 刷盘</a></li>
+            <li><a href="#周期性检查">周期性检查</a></li>
+            <li><a href="#手动执行">手动执行</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#数据切分">数据切分</a>
+      <ul>
+        <li><a href="#切分原因">切分原因</a>
+          <ul>
+            <li><a href="#数据分布不均匀">数据分布不均匀</a></li>
+            <li><a href="#compaction-性能损耗严重">Compaction 性能损耗严重</a></li>
+            <li><a href="#资源耗费严重">资源耗费严重</a></li>
+          </ul>
+        </li>
+        <li><a href="#切分优化">切分优化</a></li>
       </ul>
     </li>
   </ul>
@@ -1014,6 +1102,22 @@ Cell 由 Row，Column Family，Column Qualifier，Version 组成。</p>
     </span>        
     
 </h2>
+<p>
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /docs/hbase/index.assets/image-20240729225514979_hu782944574c62fb0ca39ef25b67aed7fe_188075_330x0_resize_box_3.png 330w,
+        /docs/hbase/index.assets/image-20240729225514979_hu782944574c62fb0ca39ef25b67aed7fe_188075_660x0_resize_box_3.png 660w,
+        /docs/hbase/index.assets/image-20240729225514979_hu782944574c62fb0ca39ef25b67aed7fe_188075_1024x0_resize_box_3.png 1024w,
+        /docs/hbase/index.assets/image-20240729225514979_hu782944574c62fb0ca39ef25b67aed7fe_188075_1320x0_resize_box_3.png 2x"
+        src="/docs/hbase/index.assets/image-20240729225514979_hu782944574c62fb0ca39ef25b67aed7fe_188075_660x0_resize_box_3.png"
+        alt="image-20240729225514979"
+      />
+      
+    </figure>
+</p>
 
 
 <h3 class="relative group">总体架构 
@@ -1236,6 +1340,312 @@ HRegion 都负责一定范围的数据存储和访问。</p>
     </span>        
     
 </h3>
+<p>​	客户端发出读取请求==&gt;通过与zookeeper交互，找到rowkey所在的hregion位置信息==&gt;连接管理hregion的hregion server==&gt;hregion server处理读取请求==&gt;先在block cache上查找，找到返回数据，没找到便在mem store上找 ==&gt;mem stores上找到数据就返回数据，没找到就在hfile上找==&gt;返回数据</p>
+
+
+<h3 class="relative group">写入数据流程 
+    <div id="%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>​	客户端发出写入请求==&gt;通过与zookeeper交互,找到rowkey所在的hregion位置信息==&gt;连接管理hregion的hregion server==&gt;hregion server处理写入请求==&gt;先将写入的数据写入hlog中==&gt;再将数据写入memstore==&gt;当memstore达到阈值进行刷写数据到hdfs中==&gt;返回成功</p>
+
+
+<h2 class="relative group">数据刷写 
+    <div id="%E6%95%B0%E6%8D%AE%E5%88%B7%E5%86%99" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%95%B0%E6%8D%AE%E5%88%B7%E5%86%99" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+
+<h3 class="relative group">刷写时机 
+    <div id="%E5%88%B7%E5%86%99%E6%97%B6%E6%9C%BA" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%88%B7%E5%86%99%E6%97%B6%E6%9C%BA" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+
+
+<h4 class="relative group">内存阈值 
+    <div id="%E5%86%85%E5%AD%98%E9%98%88%E5%80%BC" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%86%85%E5%AD%98%E9%98%88%E5%80%BC" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	HRegion中每个memstore超过128M（默认）就会进行数据刷写。在刷写的过程中，memstore还会阻塞所有写入该store的请求。</p>
+
+
+<h4 class="relative group">内存总和 
+    <div id="%E5%86%85%E5%AD%98%E6%80%BB%E5%92%8C" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%86%85%E5%AD%98%E6%80%BB%E5%92%8C" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	当HRegionServer中所有的memstore阈值超过hbase堆内存的0.4*0.95大小，就会进行刷写，所有的写操作都会阻塞。</p>
+
+
+<h4 class="relative group">日志阈值 
+    <div id="%E6%97%A5%E5%BF%97%E9%98%88%E5%80%BC" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%97%A5%E5%BF%97%E9%98%88%E5%80%BC" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	HBase 使用了 WAL 机制（日志先行），当数据到达 HRegion 时是先写入日志的，然后再被写入到 MemStore。如果日志的数量越来越大，这就意味着 MemStore 中未持久化到磁盘的数据越来越多。当 HRegionServer 挂掉的时候，恢复时间将会变得很长，所以有必要在日志到达一定的数量时进行一次刷写操作。相关公式为：Math.max(32, hbase_heapsize *hbase.regionserver.global.memstore.size * 2 / logRollSize)。</p>
+
+
+<h4 class="relative group">定期刷写 
+    <div id="%E5%AE%9A%E6%9C%9F%E5%88%B7%E5%86%99" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%AE%9A%E6%9C%9F%E5%88%B7%E5%86%99" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	自己设置时间进行刷写，默认值 3600000 毫秒，即 1 小时。</p>
+
+
+<h4 class="relative group">更新频率 
+    <div id="%E6%9B%B4%E6%96%B0%E9%A2%91%E7%8E%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%9B%B4%E6%96%B0%E9%A2%91%E7%8E%87" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	HRegion更新次数超过默认为 30000000 次，就会进行刷写。</p>
+
+
+<h3 class="relative group">刷写策略 
+    <div id="%E5%88%B7%E5%86%99%E7%AD%96%E7%95%A5" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%88%B7%E5%86%99%E7%AD%96%E7%95%A5" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>​	HBASE 1.1 之前：MemStore 刷写是 HRegion 级别的。就是说，如果要刷写某个 MemStore ，MemStore 所在的 HRegion中其他的 MemStore 也是会被一起刷写的（简单的理解：Flush 一个列族时其它列族也会一起 Flush）。</p>
+<p>​	重点：其他策略不满足要求时，也会退化到策略一。</p>
+
+
+<h2 class="relative group">数据合并 
+    <div id="%E6%95%B0%E6%8D%AE%E5%90%88%E5%B9%B6" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%95%B0%E6%8D%AE%E5%90%88%E5%B9%B6" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+
+<h3 class="relative group">合并类型 
+    <div id="%E5%90%88%E5%B9%B6%E7%B1%BB%E5%9E%8B" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%90%88%E5%B9%B6%E7%B1%BB%E5%9E%8B" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+
+
+<h4 class="relative group">Minor Compaction（次要/小） 
+    <div id="minor-compaction%E6%AC%A1%E8%A6%81%E5%B0%8F" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#minor-compaction%E6%AC%A1%E8%A6%81%E5%B0%8F" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	选取一些小的、相邻的 StoreFile 将他们合并成一个更大的 StoreFile，在这个过程中不做任何删除数据、多版本数据的清理工作，但是会对 minVersion=0 并且设置 TTL 的过期版本数据进行清理。一次 Minor Compaction 的结果是让小的StoreFile 变的更少并且产生更大的 StoreFile。</p>
+
+
+<h4 class="relative group">Major Compaction（主要/大） 
+    <div id="major-compaction%E4%B8%BB%E8%A6%81%E5%A4%A7" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#major-compaction%E4%B8%BB%E8%A6%81%E5%A4%A7" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	将所有的 StoreFile 合并成一个 StoreFile 清理三类无意义数据：被删除的数据、TTL 过期数据、版本号超过设定版本号的数据。一般情况下，Major Compaction 时间会持续比较长，整个过程会消耗大量系统资源，对上层业务有比较大的影响。因此线上业务都会关闭自动触发 Major Compaction 功能，改为手动在业务低峰期触发。</p>
+<p><strong>总结：</strong></p>
+<ul>
+<li>Minor Compaction：快速让小文件合并成大文件</li>
+<li>Major Compaction：清理大文件不必要的数据，释放空间</li>
+</ul>
+
+
+<h3 class="relative group">合并时机 
+    <div id="%E5%90%88%E5%B9%B6%E6%97%B6%E6%9C%BA" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%90%88%E5%B9%B6%E6%97%B6%E6%9C%BA" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>​	触发 Compaction 的方式有三种：MemStore 刷盘、后台线程周期性检查、手动触发。</p>
+
+
+<h4 class="relative group">MemStore 刷盘 
+    <div id="memstore-%E5%88%B7%E7%9B%98" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#memstore-%E5%88%B7%E7%9B%98" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	MemStore Flush 会产生 HFile 文件，文件越来越多就需要 Compact。每次执行完 Flush 操作之后，都会对当前 Store 中的文件数进行判断，一旦文件数大于配置，就会触发 Compaction。Compaction 都是以 Store 为单位进行的，整个 HRegion的所有 Store 都会执行 Compact。</p>
+
+
+<h4 class="relative group">周期性检查 
+    <div id="%E5%91%A8%E6%9C%9F%E6%80%A7%E6%A3%80%E6%9F%A5" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%91%A8%E6%9C%9F%E6%80%A7%E6%A3%80%E6%9F%A5" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	后台线程定期触发检查是否需要执行 Compaction，检查周期可配置。线程先检查文件数是否大于配置，一旦大于就会触发 Compaction。如果不满足，它会接着检查是否满足 Major Compaction 条件（默认 7 天触发一次，可配置手动触发）。</p>
+
+
+<h4 class="relative group">手动执行 
+    <div id="%E6%89%8B%E5%8A%A8%E6%89%A7%E8%A1%8C" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%89%8B%E5%8A%A8%E6%89%A7%E8%A1%8C" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	一般来讲，手动触发 Compaction 通常是为了执行 Major Compaction，一般有这些情况需要手动触发合并：</p>
+<ul>
+<li>因为很多业务担心自动 Major Compaction 影响读写性能（可以选择直接关闭），因此会选择低峰期手动触发；</li>
+<li>用户在执行完 alter 操作之后希望立刻生效，手动执行触发 Major Compaction；</li>
+<li>HBase 管理员发现硬盘容量不够的情况下手动触发 Major Compaction 删除大量过期数据。</li>
+</ul>
+
+
+<h2 class="relative group">数据切分 
+    <div id="%E6%95%B0%E6%8D%AE%E5%88%87%E5%88%86" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%88%86" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+
+<h3 class="relative group">切分原因 
+    <div id="%E5%88%87%E5%88%86%E5%8E%9F%E5%9B%A0" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%88%87%E5%88%86%E5%8E%9F%E5%9B%A0" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+
+
+<h4 class="relative group">数据分布不均匀 
+    <div id="%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E4%B8%8D%E5%9D%87%E5%8C%80" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E4%B8%8D%E5%9D%87%E5%8C%80" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	同一 HRegionServer 上数据文件越来越大，读请求也会越来越多。一旦所有的请求都落在同一个 HRegionServer 上，尤其是很多热点数据，必然会导致很严重的性能问题。</p>
+
+
+<h4 class="relative group">Compaction 性能损耗严重 
+    <div id="compaction-%E6%80%A7%E8%83%BD%E6%8D%9F%E8%80%97%E4%B8%A5%E9%87%8D" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#compaction-%E6%80%A7%E8%83%BD%E6%8D%9F%E8%80%97%E4%B8%A5%E9%87%8D" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	Compaction 本质上是一个排序合并的操作，合并操作需要占用大量内存，因此文件越大，占用内存越多。Compaction 有可能需要迁移远程数据到本地进行处理（balance 之后的 Compaction 就会存在这样的场景），如果需要迁移的数据是大文件的话，带宽资源就会损耗严重。</p>
+
+
+<h4 class="relative group">资源耗费严重 
+    <div id="%E8%B5%84%E6%BA%90%E8%80%97%E8%B4%B9%E4%B8%A5%E9%87%8D" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%B5%84%E6%BA%90%E8%80%97%E8%B4%B9%E4%B8%A5%E9%87%8D" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	HBase 的数据写入量也是很惊人的，每天都可能有上亿条的数据写入不做切分的话一个热点 HRegion 的新增数据量就有可能几十G，用不了多长时间大量读请求就会把单台 HRegionServer 的资源耗光。</p>
+
+
+<h3 class="relative group">切分优化 
+    <div id="%E5%88%87%E5%88%86%E4%BC%98%E5%8C%96" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%88%87%E5%88%86%E4%BC%98%E5%8C%96" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>​	对于预估数据量较大的表，需要在创建表的时候根据 RowKey 执行 HRegion 的预分区。通过 HRegion 预分区，数据会
+被均衡到多台机器上，这样可以一定程度解决热点应用数据量剧增导致的性能问题。</p>
 
         </div>
         
