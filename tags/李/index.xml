@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>© 2024 李</copyright>
-    <lastBuildDate>Sat, 27 Jul 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/tags/%E6%9D%8E/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 31 Jul 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/tags/%E6%9D%8E/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scala笔记</title>
+      <link>https://your_domain.com/docs/scala/</link>
+      <pubDate>Wed, 31 Jul 2024 00:00:00 +0800</pubDate>
+      
+      <guid>https://your_domain.com/docs/scala/</guid>
+      <description>Scala # 基本常识 # 什么是Scala？ # ​	Scala 是一种运行在 JVM上的函数式的面向对象语言。</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://your_domain.com/docs/scala/featured.jpg" />
+    </item>
+    
     <item>
       <title>hbase启动步骤</title>
       <link>https://your_domain.com/docs/hbase-start/</link>
