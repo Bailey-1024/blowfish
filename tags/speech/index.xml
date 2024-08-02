@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Speech on 李</title>
+    <link>https://your_domain.com/tags/speech/</link>
+    <description>Recent content in Speech on 李</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2024 李</copyright>
+    <lastBuildDate>Fri, 02 Aug 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/tags/speech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>演讲8-3</title>
+      <link>https://your_domain.com/docs/speech-8-3/</link>
+      <pubDate>Fri, 02 Aug 2024 00:00:00 +0800</pubDate>
+      
+      <guid>https://your_domain.com/docs/speech-8-3/</guid>
+      <description>Scala # 至简原则 # 如果方法的返回值类型为 Unit，可以省略等号 = ；(如果期望是无返回值类型，可以省略=)</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://your_domain.com/docs/speech-8-3/featured.jpg" />
+    </item>
+    
+  </channel>
+</rss>
