@@ -104,7 +104,7 @@
     "keywords": ["Scala","speech"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "38"
+    "wordCount": "55"
   }]
   </script>
 
@@ -539,7 +539,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2024-08-02 00:00:00 &#43;0800 CST">2024-08-02</time><span class="px-2 text-primary-500">&middot;</span><span>38 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">1 分钟</span>
+  <time datetime="2024-08-02 00:00:00 &#43;0800 CST">2024-08-02</time><span class="px-2 text-primary-500">&middot;</span><span>55 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">1 分钟</span>
   
 
   
@@ -788,22 +788,34 @@
 <p>​	<strong>判断哪个正确</strong>：</p>
 <pre tabindex="0"><code>def addNum(a:Int,b:Int):Unit {a+b}
 </code></pre><pre tabindex="0"><code>def addNum(a:Int,b:Int) {a+b}
-</code></pre><p>​	<strong>判断打印出来的结果相同吗</strong>：</p>
+</code></pre><p>​	答：第一个方法是错误的，第二个是正确的。</p>
+<p>第一个方法是因为返回值类型和方法体中的表达式类型不匹配，加了:Unit有显式的返回类型，表达式需要和返回值类型保持一致</p>
+<p>第二个方法正确</p>
+<p>​	<strong>判断打印出来的结果相同吗</strong>：</p>
 <pre tabindex="0"><code>def addNum(a:Int,b:Int)={a+b}
 println(addNum(2,3))
 </code></pre><pre tabindex="0"><code>def addNum(a:Int,b:Int) {a+b}
 println(addNum(2,3))
-</code></pre></li>
+</code></pre><p>​	答：不同。第一个方法返回的值是5，第二个方法返回的是（）。</p>
+<p>第一个方法因为加了等于号，它会进行自动推断，推断出返回值类型是Int。</p>
+<p>第二个方法是因为没有等号，表达式没有被赋值或者返回，所以它默认返回值类型是Unit。</p>
+</li>
 <li>
 <p>如果匿名函数只有一个参数，小括号 () 和参数类型都可以省略，没有参数或参数超过一个的情况下不能省略 () ；</p>
+<p>简化下列函数：</p>
 <pre tabindex="0"><code>(x:Int)=&gt;x+2
-</code></pre></li>
+</code></pre><p>答：不能简化。</p>
+</li>
 <li>
-<p>如果参数只出现一次，且方法体或函数体没有嵌套使用参数，则参数可以用下划线 _ 来替代。</p>
+<p>如果参数只出现一次，且方法体或函数体没有嵌套使用参数，则参数可以用下划线 _ 来替代。
+简化下面的方法:</p>
 </li>
 </ol>
 <pre tabindex="0"><code>val list=(1,2,3,4)
-val result=list.map(x)
+val result=list.map((x:Int)=&gt;x+2)
+</code></pre><p>​	答：</p>
+<pre tabindex="0"><code>val list=(1,2,3,4)
+val result=list.map(_+2)
 </code></pre>
         </div>
         
