@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>© 2024 李</copyright>
-    <lastBuildDate>Wed, 31 Jul 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/series/%E5%A4%A7%E6%95%B0%E6%8D%AE/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Aug 2024 00:00:00 +0800</lastBuildDate><atom:link href="https://your_domain.com/series/%E5%A4%A7%E6%95%B0%E6%8D%AE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spark</title>
+      <link>https://your_domain.com/docs/spark/</link>
+      <pubDate>Mon, 05 Aug 2024 00:00:00 +0800</pubDate>
+      
+      <guid>https://your_domain.com/docs/spark/</guid>
+      <description>Spark # Spark Core 3.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://your_domain.com/docs/spark/featured.jpg" />
+    </item>
+    
     <item>
       <title>Scala笔记</title>
       <link>https://your_domain.com/docs/scala/</link>
