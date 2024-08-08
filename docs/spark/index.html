@@ -106,7 +106,7 @@
     "keywords": ["Spark","李"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "346"
+    "wordCount": "473"
   }]
   </script>
 
@@ -541,7 +541,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2024-08-05 00:00:00 &#43;0800 CST">2024-08-05</time><span class="px-2 text-primary-500">&middot;</span><span>346 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">2 分钟</span>
+  <time datetime="2024-08-05 00:00:00 &#43;0800 CST">2024-08-05</time><span class="px-2 text-primary-500">&middot;</span><span>473 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span>
   
 
   
@@ -725,6 +725,9 @@
             <li><a href="#rdd">RDD</a></li>
             <li><a href="#partition">Partition</a></li>
             <li><a href="#算子">算子</a></li>
+            <li><a href="#闭包检测">闭包检测</a></li>
+            <li><a href="#血统--依赖关系">血统 &amp; 依赖关系</a></li>
+            <li><a href="#stage-阶段">Stage 阶段</a></li>
           </ul>
         </li>
       </ul>
@@ -765,6 +768,9 @@
             <li><a href="#rdd">RDD</a></li>
             <li><a href="#partition">Partition</a></li>
             <li><a href="#算子">算子</a></li>
+            <li><a href="#闭包检测">闭包检测</a></li>
+            <li><a href="#血统--依赖关系">血统 &amp; 依赖关系</a></li>
+            <li><a href="#stage-阶段">Stage 阶段</a></li>
           </ul>
         </li>
       </ul>
@@ -1462,6 +1468,146 @@ preservesPartitioning: Boolean = false): RDD[U]
 </h6>
 <p>​	扁平化映射可以理解为先 map，然后再 flatten，它也是将来使用最多的操作，也是必须要掌握的。</p>
 <p>​	简单的理解就是首先将函数作用于集合中的每个元素，然后将结果展平，返回新的集合。</p>
+<p>案例图：</p>
+<img src="index.assets/image-20240807195215053.png" alt="image-20240807195215053" style="zoom:80%;" />
+<p>个人理解：map就是映射到所有的元素，就是对所有元素进行操作；flat就是将多列元素转成一列元素。</p>
+
+
+<h6 class="relative group">glom 
+    <div id="glom" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#glom" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	将同一个分区的多个单个数据直接转换为相同类型的单个数组进行处理，适用于以分区为单位的数据统计。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def glom(): RDD[Array[T]]
+</code></pre>
+
+<h6 class="relative group">groupBy（shuffle） 
+    <div id="groupbyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#groupbyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	分组是指将数据按指定条件进行分组，从而方便我们对数据进行统计分析。按照传入函数的返回值进行分组，将相同的 Key 对应的值放入一个迭代器中。使用 groupBy 算子后数据会被打乱重新组合，我们将这样的操作称之为 Shuffle。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def groupBy[K](f: T =&gt; K)(implicit kt: ClassTag[K]): RDD[(K, Iterable[T])]
+</code></pre>
+
+<h6 class="relative group">filter 
+    <div id="filter" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#filter" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	过滤是指过滤出符合一定条件的元素。将数据根据指定的规则进行筛选过滤，符合规则的数据保留，不符合规则的数据丢弃。当数据进行筛选过滤后，分区不变，但是分区内的数据可能不均衡，生产环境下，可能会出现数据倾斜。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def filter(f: T =&gt; Boolean): RDD[T]
+</code></pre>
+
+<h4 class="relative group">闭包检测 
+    <div id="%E9%97%AD%E5%8C%85%E6%A3%80%E6%B5%8B" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E9%97%AD%E5%8C%85%E6%A3%80%E6%B5%8B" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	Spark Job 产生的任务会并行执行，也就是说会分发给多个 Executor 去执行。那么从计算的角度，算子以外的代码都是在 Driver 端执行，算子里面的代码都是在 Executor 端执行，这样就会导致算子内可能会用到算子外的数据，就会形成闭包的效果。</p>
+<p>​	而算子外的数据想要被 Executor 端的任务使用，就必须先序列化然后通过网络 IO 进行传输，此时如果算子外的数据无法序列化，就会发生错误。所以为了降低程序出错的可能性，Spark 的算子增加了闭包检查功能，会在执行计算任务前，检测闭包内的对象是否可以进行序列化。</p>
+<p>解决方案：</p>
+<ul>
+<li>继承 scala.Serializable</li>
+<li>使用样例类（推荐），样例类默认继承了 Serializable</li>
+</ul>
+
+
+<h5 class="relative group">Kryo 序列化框架 
+    <div id="kryo-%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#kryo-%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6" aria-label="锚点">#</a>
+    </span>        
+    
+</h5>
+<p>​	既然提到了序列化就不得不介绍一下 Spark 内部默认使用的序列化框架 Kryo。</p>
+<p>​	Github：https://github.com/EsotericSoftware/kryo</p>
+<pre><code>&lt;img src=&quot;index.assets/image-20240807205503164.png&quot; alt=&quot;image-20240807205503164&quot; style=&quot;zoom:80%;&quot; /&gt;
+</code></pre>
+<p>图上注意中需要继承serializable接口说法错误，可以不继承。</p>
+
+
+<h4 class="relative group">血统 &amp; 依赖关系 
+    <div id="%E8%A1%80%E7%BB%9F--%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%A1%80%E7%BB%9F--%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+
+
+<h5 class="relative group">血统 
+    <div id="%E8%A1%80%E7%BB%9F" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%A1%80%E7%BB%9F" aria-label="锚点">#</a>
+    </span>        
+    
+</h5>
+<p>​	Spark 根据用户 Application 中的 RDD 的转换算子和行动算子，会生成 RDD 之间的依赖关系，多个 RDD 之间的关系又
+形成一条关系链叫做 RDD 的血统（Lineage）。</p>
+
+
+<h5 class="relative group">依赖关系 
+    <div id="%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB" aria-label="锚点">#</a>
+    </span>        
+    
+</h5>
+<p>​	RDD 之间的依赖关系又分为窄依赖（Narrow Dependency）和宽依赖（Wide Dependency）。</p>
+<ul>
+<li>窄依赖指的是父 RDD 和子 RDD 的 Partition 之间的关系是一对一的（独生子女）。如 map、filter 等。</li>
+<li>宽依赖指的是一个子RDD的分区可能依赖于多个父RDD的分区。，宽依赖会有 Shuffle 的产生。如reduceByKey、groupByKey 等。</li>
+</ul>
+
+
+<h4 class="relative group">Stage 阶段 
+    <div id="stage-%E9%98%B6%E6%AE%B5" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#stage-%E9%98%B6%E6%AE%B5" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>​	从字面上理解宽窄依赖并不难，关键是它有什么用呢？其实宽窄依赖是为了划分任务阶段 Stage 用的，如下图。</p>
 
         </div>
         
