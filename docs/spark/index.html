@@ -106,7 +106,7 @@
     "keywords": ["Spark","李"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "473"
+    "wordCount": "1021"
   }]
   </script>
 
@@ -211,7 +211,7 @@
 
             
             
-  <a href="https://github.com/5mrhelloworld"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+  <a href="https://github.com/Bailey-1024"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
     
     <span >
         
@@ -397,7 +397,7 @@
 
                     
   <li class="mt-1">
-    <a href="https://github.com/5mrhelloworld"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    <a href="https://github.com/Bailey-1024"  target="_blank"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
         
         <div >
             
@@ -541,7 +541,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2024-08-05 00:00:00 &#43;0800 CST">2024-08-05</time><span class="px-2 text-primary-500">&middot;</span><span>473 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">3 分钟</span>
+  <time datetime="2024-08-05 00:00:00 &#43;0800 CST">2024-08-05</time><span class="px-2 text-primary-500">&middot;</span><span>1021 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">5 分钟</span>
   
 
   
@@ -1251,7 +1251,7 @@
       
     </figure>
 </p>
-<p><strong>疑问???</strong></p>
+<p><strong>疑问？？？？</strong></p>
 <p>​	如何理解RDD是一个抽象的数据集，不存储数据?</p>
 <p>​	个人理解:RDD存储的只是数据之间如何转换的指令,数据之间的依赖关系和数据的分区状态.</p>
 
@@ -1517,6 +1517,389 @@ preservesPartitioning: Boolean = false): RDD[U]
 <p>语法格式：</p>
 <pre tabindex="0"><code>def filter(f: T =&gt; Boolean): RDD[T]
 </code></pre>
+
+<h6 class="relative group">sample 
+    <div id="sample" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#sample" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	采样就是从大量的数据中获取少量的数据，获取的方法可以依据某种策略，得到的数据用于分析，企图使用少量数据的分析结果代替全局。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def sample(
+	withReplacement: Boolean,
+	fraction: Double,
+	seed: Long = Utils.random.nextLong): RDD[T]
+</code></pre><p>参数：</p>
+<ul>
+<li>
+<p>withReplacement：表示抽出样本数据后是否再放回去，true 表示会放回去，这也就意味着抽出的样本可能有重复；</p>
+</li>
+<li>
+<p>fraction：</p>
+<ul>
+<li>
+<p>抽取不放回的情况下为每个元素被抽取的概率，在 0 ~ 1 之间，e.g. 0.3 表示抽出 30%；1 全取，0 全不取；</p>
+</li>
+<li>
+<p>抽取放回的情况下为每个元素可能被抽取的次数，e.g. 3 表示可能会抽取 3 次，当然也有可能抽取 1 次或者 2 次，或者 1 次都抽不到或者抽到更多次。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>seed：表示随机种子，一般情况下只用前两个参数就可以，这个参数一般用于调试，有时候不知道是程序出问题还是数据出了问题，就可以将这个参数设置为定值。种子相同时，指定相同的 fraction 每次抽样的数据也会相同，如果此时出现数据不相同的情况那就是数据出问题了。</p>
+</li>
+</ul>
+<p>​	<strong>疑问？？？？</strong></p>
+<p>​	每次采样的数量，是多少能设置吗？</p>
+<p>​	个人理解：采样的次数不能设置，只能设置每个元素被抽取的概率或者可能被抽取到的次数。</p>
+<p>​	第一个参数withReplacement设置为true和false的区别？</p>
+<p>​	个人理解：设置为true时设置的是每个元素被抽取到的概率，抽到了就不会放回，即每个元素最多被抽到一次。</p>
+<p>设置为false时设置的说每个元素可能被抽到的次数，一个元素可以被抽到0次或多次。</p>
+
+
+<h6 class="relative group">distinct（shuffle） 
+    <div id="distinctshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#distinctshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	将数据集中重复的数据去重。Scala 的 distinct 底层采用了 HashSet 的方式，而 Spark 的 distinct 则是采用了 mapreduceByKey map 的方式进行去重。</p>
+<p>核心源码：</p>
+<pre tabindex="0"><code>map(x =&gt; (x, null)).reduceByKey((x, y) =&gt; x, numPartitions).map(_._1) 。
+</code></pre><p>语法格式：</p>
+<pre tabindex="0"><code>def distinct(): RDD[T]
+def distinct(numPartitions: Int)(implicit ord: Ordering[T] = null): RDD[T]
+</code></pre>
+
+<h6 class="relative group">coalesce（shuffle） 
+    <div id="coalesceshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#coalesceshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	缩减分区数，用于大数据集过滤后，提高小数据集的执行效率。（可以简单地理解为合并分区，可能导致数据倾斜）。当 Spark 程序中存在过多小任务时，可以通过 coalesce 方法合并分区，减少分区的个数，减小任务调度成本。</p>
+<p>
+    <figure>
+      <img
+        class="my-0 rounded-md"
+        loading="lazy"
+        srcset="
+        /docs/spark/index.assets/image-20240808154623753_hu6ea0798a143e1f7f651012dd438079cb_55903_330x0_resize_box_3.png 330w,
+        /docs/spark/index.assets/image-20240808154623753_hu6ea0798a143e1f7f651012dd438079cb_55903_660x0_resize_box_3.png 660w,
+        /docs/spark/index.assets/image-20240808154623753_hu6ea0798a143e1f7f651012dd438079cb_55903_1024x0_resize_box_3.png 1024w,
+        /docs/spark/index.assets/image-20240808154623753_hu6ea0798a143e1f7f651012dd438079cb_55903_1320x0_resize_box_3.png 2x"
+        src="/docs/spark/index.assets/image-20240808154623753_hu6ea0798a143e1f7f651012dd438079cb_55903_660x0_resize_box_3.png"
+        alt="image-20240808154623753"
+      />
+      
+    </figure>
+</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def coalesce(numPartitions: Int, shuffle: Boolean = false,
+			partitionCoalescer: Option[PartitionCoalescer]
+</code></pre><p>参数：</p>
+<p>第二个参数 <strong>shuffle: Boolean</strong>：默认为false，不需要shuffle。</p>
+<p>​	coalesce 函数除了可以缩减分区数，还可以扩增分区数，但是扩增分区数时一定要设置 shuffle 为 true，否则不起作用。</p>
+<p>​	Spark 为了防止大家记忆混乱，特意定义了一个扩增分区数的函数 repartition ，底层就是调用了 coalesce 。</p>
+
+
+<h6 class="relative group">repartition（shuffle） 
+    <div id="repartitionshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#repartitionshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	重新分配分区数，一定会产生 Shuffle 操作，底层就是调用了 coalesce 。</p>
+
+
+<h6 class="relative group">sortBy（shuffle） 
+    <div id="sortbyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#sortbyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	sortBy 函数可以根据指定的规则对数据源中的数据进行排序，默认为升序，该函数会产生 Shuffle 操作。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def sortBy[K](
+	f: (T) =&gt; K,
+	ascending: Boolean = true,
+	numPartitions: Int = this.partitions.length)
+	(implicit ord: Ordering[K], ctag: ClassTag[K]): RDD[T]
+</code></pre><p>参数：</p>
+<p>第二个参数 **ascending: Boolean：**默认为true为升序，false为降序</p>
+
+
+<h5 class="relative group">转换算子（双 Value） 
+    <div id="%E8%BD%AC%E6%8D%A2%E7%AE%97%E5%AD%90%E5%8F%8C-value" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%BD%AC%E6%8D%A2%E7%AE%97%E5%AD%90%E5%8F%8C-value" aria-label="锚点">#</a>
+    </span>        
+    
+</h5>
+
+
+<h6 class="relative group">并集/交集/差集/笛卡尔积 
+    <div id="%E5%B9%B6%E9%9B%86%E4%BA%A4%E9%9B%86%E5%B7%AE%E9%9B%86%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%B9%B6%E9%9B%86%E4%BA%A4%E9%9B%86%E5%B7%AE%E9%9B%86%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	操作数据时，我们可能会遇到求并集、交集、差集的需求，这时就要用到 union 、 intersection 、 subtract 这些方法了。值得注意的是，两个 RDD 的元素类型必须相同，否则编译不通过。</p>
+<p>​	<img src="index.assets/image-20240808161712202.png" alt="image-20240808161712202" style="zoom:80%;" /></p>
+
+
+<h5 class="relative group">转换算子（Key-Value） 
+    <div id="%E8%BD%AC%E6%8D%A2%E7%AE%97%E5%AD%90key-value" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%BD%AC%E6%8D%A2%E7%AE%97%E5%AD%90key-value" aria-label="锚点">#</a>
+    </span>        
+    
+</h5>
+
+
+<h6 class="relative group">partitionBy（shuffle） 
+    <div id="partitionbyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#partitionbyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	将数据按照指定分区数重新进行分区，Spark 默认采用 HashPartitioner。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def partitionBy(partitioner: Partitioner): RDD[(K, V)]
+</code></pre><ul>
+<li>
+<p>重新分区时如果和上一个 RDD 的分区器是一样的（分区器的类型和分区数量）会怎么办？</p>
+</li>
+<li>
+<p>Spark 还有其他的分区器吗？</p>
+</li>
+<li>
+<p>可不可以自定义分区器？</p>
+</li>
+</ul>
+<p>​	问：重新分区时如果和上一个 RDD 的分区器是一样的（分区器的类型和分区数量）会怎么办？
+​	答：不产生新的 RDD。</p>
+<p>​	问：Spark 还有其他的分区器吗？
+​	答：通用的主要有 HashPartitioner 和 RangePartitioner 。 PythonPartitioner 在特定包下才可以使用。</p>
+<p>​	HashPartitioner 分区器的核心为： partitionId（分区编号） = key.hashCode % numPartitions 。
+​	RangePartitioner 分区器的核心为：水塘抽样算法。
+​	Spark 引入 RangePartitioner 的目的是为了解决 HashPartitioner 所带来的数据倾斜问题，即分区中包含的数据量不均衡问题。HashPartitioner 采用哈希的方式将同一类型的 Key 分配到同一个 Partition 中，当某几种类型数据量较多时，就会造成若干 Partition 中包含的数据过大。在 Job 执行过程中，一个 Partition 对应一个 Task，此时就会使得某几个 Task 运行过慢。RangePartitioner 是基于抽样（水塘抽样算法）的思想来对数据进行分区的。</p>
+<p>​	问：可不可以自定义分区器？
+​	答：可以，继承 Partitioner 即可。</p>
+
+
+<h6 class="relative group">sortByKey（shuffle） 
+    <div id="sortbykeyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#sortbykeyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	将 K, V 格式数据的 Key 根据指定的规则进行排序，默认为升序。如果 Key 是元组，如 (x1, x2, x3, &hellip;)，会先按照 x1 排序，若 x1 相同，再按 x2 排序，依次类推。sortByKey 同样是来自 PairRDDFunctions 的函数。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def sortByKey(ascending: Boolean = true, numPartitions: Int = self.partitions.length): RDD[(K, V)]
+</code></pre>
+
+<h6 class="relative group">reduceByKey（shuffle） 
+    <div id="reducebykeyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#reducebykeyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	将相同 Key 的值聚合到一起，Reduce 任务的个数可以通过 numPartitions 参数来设置。reduceByKey 同样是来自
+PairRDDFunctions 的函数。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def reduceByKey(func: (V, V) =&gt; V): RDD[(K, V)]
+
+def reduceByKey(func: (V, V) =&gt; V, numPartitions: Int): RDD[(K, V)]
+
+def reduceByKey(partitioner: Partitioner, func: (V, V) =&gt; V): RDD[(K, V)]
+</code></pre>
+
+<h6 class="relative group">groupByKey（shuffle） 
+    <div id="groupbykeyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#groupbykeyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<img src="index.assets/image-20240808174017724.png" alt="image-20240808174017724" style="zoom: 67%;" />
+<img src="index.assets/image-20240808174053993.png" alt="image-20240808174053993" style="zoom: 67%;" />
+
+
+<h6 class="relative group">aggregateByKey（shuffle） 
+    <div id="aggregatebykeyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#aggregatebykeyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	实现分区内和分区间不同的计算逻辑。aggregateByKey 同样是来自PairRDDFunctions 的函数。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def aggregateByKey[U: ClassTag](zeroValue: U)(seqOp: (U, V) =&gt; U,
+			combOp: (U, U) =&gt; U): RDD[(K, U)]
+
+def aggregateByKey[U: ClassTag](zeroValue: U, numPartitions: Int)(seqOp: (U, V) =&gt; U,
+			combOp: (U, U) =&gt; U): RDD[(K, U)]
+
+-def aggregateByKey[U: ClassTag](zeroValue: U, partitioner: Partitioner)(seqOp: (U, V) =&gt; U,
+			combOp: (U, U) =&gt; U): RDD[(K, U)]
+</code></pre><p>参数：</p>
+<ul>
+<li>zeroValue：给每个分区的 Key 的 Value 一个初始值（用于当碰见第一个 Key 时，和其 Value 进行分区内的计算），</li>
+<li>aggregateByKey 算子最终返回的 K, V 中的 V 的数据类型必须和初始值的数据类型保持一致。</li>
+<li>seqOp：分区内计算逻辑</li>
+<li>combOp：分区间计算逻辑（用于合并每个分区中的结果）</li>
+</ul>
+
+
+<h6 class="relative group">mapValues 
+    <div id="mapvalues" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#mapvalues" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	针对于 K, V 形式的数据只对 V 进行操作。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def mapValues[U](f: V =&gt; U): RDD[(K, U)]
+</code></pre>
+
+<h6 class="relative group">foldByKey（shuffle） 
+    <div id="foldbykeyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#foldbykeyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	当分区内和分区间计算逻辑相同时，Spark 为了让程序员更方便的使用，提供了 foldByKey 算子。foldByKey 同样是来自 PairRDDFunctions 的函数。</p>
+<p>语法格式：</p>
+<pre tabindex="0"><code>def foldByKey(zeroValue: V)(func: (V, V) =&gt; V): RDD[(K, V)]
+
+def foldByKey(zeroValue: V, numPartitions: Int)(func: (V, V) =&gt; V): RDD[(K, V)]
+
+def foldByKey(
+		zeroValue: V,
+		partitioner: Partitioner)(func: (V, V) =&gt; V): RDD[(K, V)]
+</code></pre><p>参数：</p>
+<ul>
+<li>
+<p>zeroValue：给每个分区的 Key 的 Value 一个初始值（用于当碰见第一个 Key 时，和其 Value 进行分区内的计算），foldByKey 算子最终返回的 K, V 中的 V 的数据类型必须和初始值的数据类型保持一致。</p>
+</li>
+<li>
+<p>func：分区内和分区间的计算逻辑</p>
+</li>
+<li>
+<p>partitioner：任务并行度</p>
+</li>
+</ul>
+
+
+<h6 class="relative group">combineByKey（shuffle） 
+    <div id="combinebykeyshuffle" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#combinebykeyshuffle" aria-label="锚点">#</a>
+    </span>        
+    
+</h6>
+<p>​	aggregateByKey 算子和 foldByKey 算子都是给每个分区的第一个 Key 的 Value 一个初始值，如果想要再灵活点，可以使用 combineByKey 算子，因为它的第一个参数是给每个分区的第一个 Key 的 Value 一个初始值规则（使用createCombiner 函数来初始化第一个 Key 的初始值）。combineByKey 同样是来自 PairRDDFunctions 的函数。</p>
+<img src="index.assets/image-20240808192701317.png" alt="image-20240808192701317" style="zoom:80%;" />
+
+
+<h5 class="relative group">行动算子 
+    <div id="%E8%A1%8C%E5%8A%A8%E7%AE%97%E5%AD%90" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E8%A1%8C%E5%8A%A8%E7%AE%97%E5%AD%90" aria-label="锚点">#</a>
+    </span>        
+    
+</h5>
+
+
+<h5 class="relative group">控制算子 
+    <div id="%E6%8E%A7%E5%88%B6%E7%AE%97%E5%AD%90" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%8E%A7%E5%88%B6%E7%AE%97%E5%AD%90" aria-label="锚点">#</a>
+    </span>        
+    
+</h5>
+<p>​	控制算子可以将 RDD 持久化，持久化的单位是 Partition 。控制算子有三种：</p>
+<ul>
+<li>
+<p>cache ：保存到内存，效率高，数据不安全容易丢失；</p>
+</li>
+<li>
+<p>persist ：保存到磁盘（临时文件，作业结束后会删除），效率低，数据安全；</p>
+</li>
+<li>
+<p>checkpoint ：保存到磁盘（永久保存，一般存储在分布式文件系统中，例如 HDFS），效率低，数据安全。</p>
+</li>
+</ul>
+<p>​	cache 和 persist 都是懒执行的，必须由一个 Action 类算子触发执行。 checkpoint 算子不仅能将 RDD 持久化
+到磁盘，还能切断 RDD 之间的依赖关系。</p>
+
 
 <h4 class="relative group">闭包检测 
     <div id="%E9%97%AD%E5%8C%85%E6%A3%80%E6%B5%8B" class="anchor"></div>
